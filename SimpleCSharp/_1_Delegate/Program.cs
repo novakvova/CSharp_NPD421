@@ -35,6 +35,20 @@ class Program
         Console.WriteLine(message);
         Console.ResetColor();
     }
+    
+    static void ShowMessagePanel(string message)
+    {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine(message);
+        Console.ResetColor();
+    }
+    static void ShowMessageDisplay(string message)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(message);
+        Console.ResetColor();
+    }
+
     public static void Main(string[] args)
     {
         Console.InputEncoding = System.Text.Encoding.UTF8;
@@ -52,6 +66,8 @@ class Program
 
         */
 
+
+        /*
         Console.WriteLine("Вкажіть ваш вік для водіння авто");
         int age = int.Parse(Console.ReadLine() ?? "0");
 
@@ -69,6 +85,45 @@ class Program
         }
 
         displayDelegate(message);
+
+        */
+    
+        Car bmw = new Car("BMW", 150, 0);
+
+        // Реєструємо методи для обробки подій
+        //bmw.listOfHandlers += delegate (string message) // Анонімний метод для обробки подій
+        //{
+        //    Console.ForegroundColor = ConsoleColor.Green;
+        //    Console.WriteLine($"Повідомлення від двигуна: {message}");
+        //    Console.ResetColor();
+        //};
+
+        bmw.listOfHandlers += message => // Лямбда-вираз для обробки подій
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Повідомлення від двигуна: {message}");
+            Console.ResetColor();
+        };
+
+
+        //bmw.listOfHandlers += ShowMessagePanel; // Реєструємо метод ShowMessagePanel для обробки подій
+        bmw.listOfHandlers += ShowMessageDisplay; // Реєструємо метод ShowMessageDisplay для обробки подій
+
+        //bmw.RegisterWithCarEngine(ShowMessagePanel);
+        //bmw.RegisterWithCarEngine(ShowMessageDisplay);
+
+        for (int i = 0; i < 5; i++)
+        {
+            bmw.Accelerate(40);
+        }
+
+        //bmw.listOfHandlers -= ShowMessagePanel; // Відписуємося від події ShowMessagePanel
+        bmw.listOfHandlers -= ShowMessageDisplay; // Відписуємося від події ShowMessageDisplay
+
+        //bmw.UnregisterWithCarEngine(ShowMessagePanel);
+        //bmw.UnregisterWithCarEngine(ShowMessageDisplay);
+
+        bmw.Accelerate(20);
     }
 }
 
